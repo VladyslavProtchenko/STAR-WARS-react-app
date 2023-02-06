@@ -9,7 +9,7 @@ import InfoMovie from './InfoMovie';
 
 //style 
 const box = 'min-h-screen w-screen flex flex-col items-center bg-yellow-200'
-const poster ='h-full bg-white w-screen bg-[url("https://cdn.britannica.com/43/182843-050-B623067D/Gamora-Star-Lord-Drax-the-Destroyer-Rocket-Raccoon.jpg")] bg-no-repeat bg-contain'
+const poster ='h-full bg-white w-screen bg-[url("https://imgix.bustle.com/uploads/image/2021/5/17/1eb54488-e3a6-41bb-8115-cc085f281e9a-guardians-galaxy-2-full-team-header.jpeg?w=2000&h=640&fit=crop&crop=faces&auto=format%2Ccompress")] bg-no-repeat bg-cover'
 
 const Movie = () => {
     const {id} = useParams()
