@@ -1,13 +1,10 @@
 import './App.css';
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements  } from 'react-router-dom'
-import { Home } from './pages/Home/Index';
-import { Movies} from './pages/Movies/Index.jsx';
-import { About } from './pages/About/Index';
-import {  Movie } from './pages/Movie/Index';
+
 import { Login } from './pages/Login/Login';
 import { Account } from './pages/Login/Account';
 import { Layout } from './components/layout/Layout';
-import { Character } from './pages/Character/Index';
+
 import { AuthProvider } from './hooks/hoc/AuthProvider';
 import { RequireAuth } from './hooks/hoc/requireAuth';
 import { filmLoader } from './pages/Movie/loader';
@@ -17,6 +14,11 @@ import { MoviesAxios } from './pagesAxios/MoviesAxios/MoviesAxios';
 import { MovieAxios } from './pagesAxios/MovieAxios/MovieAxios';
 import CharacterAxios from './pagesAxios/Character/Character';
 import Error from './pagesAxios/Error';
+import { Home } from './pages/Home/Home';
+import { Movies } from './pages/Movies/Movies';
+import { Movie } from './pages/Movie/Movie';
+import { Character } from './pages/Character/Characters';
+import { About } from './pages/About/About';
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path='/' element={<Layout/>}>
