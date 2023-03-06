@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import { useLoaderData, useSearchParams, Await } from 'react-router-dom';
+import { MovieList } from '../../pagesAxios/MoviesAxios/MovieList/MovieList';
 
-import MovieList from './MovieList/MovieList';
 import { Search } from './Search/Search';
 
 //styles
