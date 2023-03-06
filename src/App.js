@@ -1,38 +1,60 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
-import { Character } from "./pages/character";
-import { Login } from "./pages/login";
-import Movie from "./pages/movie";
-import Movies from "./pages/movies";
-import Settings from "./pages/settings";
-import { fetchMovies } from "./store/moviesSlice";
-import Layout from './components/Layout';
-
-
+import './App.css';
+import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements  } from 'react-router-dom'
+import { Home } from './pages/Home/Index';
+import { Movies} from './pages/Movies/Index.jsx';
+import { About } from './pages/About/Index';
+import {  Movie } from './pages/Movie/Index';
+import { Login } from './pages/Login/Login';
+import { Account } from './pages/Login/Account';
+import { Layout } from './components/layout/Layout';
+import { Character } from './pages/Character/Index';
+import { AuthProvider } from './hooks/hoc/AuthProvider';
+import { RequireAuth } from './hooks/hoc/requireAuth';
+import { filmLoader } from './pages/Movie/loader';
+import { characterLoader } from './pages/Character/loader';
+import { movieLoader } from './pages/Movies/loader';
+import { MoviesAxios } from './pagesAxios/MoviesAxios/MoviesAxios';
+import { MovieAxios } from './pagesAxios/MovieAxios/MovieAxios';
+import CharacterAxios from './pagesAxios/Character/Character';
+import Error from './pagesAxios/Error';
 
 const router = createBrowserRouter(createRoutesFromElements(
   <Route path='/' element={<Layout/>}>
+    <Route index element={<Home/>} />
+      <Route path='movie' element={<Movies/>} loader={movieLoader}/>
+      
+      <Route path='movie/:id' element={
+          <Movie />
+      }  loader={filmLoader}/>
 
-    <Route index element={<Movies/>}/>
-    <Route path='movie/:id' element={<Movie/>}/>
-    <Route path='character/:id' element={<Character/>}/>
+      <Route path='movie/character/:id' element={
+          <Character />
+      
+      } loader={characterLoader}/>
 
-    <Route path='settings' element={<Settings/>}/>
-    <Route path='login' element={<Login/>}/>
+      <Route path='axios' element={<MoviesAxios/>} errorElement={<Error/>}/>
+      <Route path='axios/:id' element={<MovieAxios/>} errorElement={<Error/>}/> 
+      <Route path='axios/character/:id' element={<CharacterAxios/>} errorElement={<Error/>}/> 
 
-  </Route>
+      <Route path='about-us' element={<About/>} />
+      <Route path='authorization' element={<Login/>} />
+      
+      <Route path='login' element={
+        <RequireAuth>
+          <Account/>
+        </RequireAuth>
+      } />
+    </Route>          
 ))
 
-
 function App() {
-  const dispatch = useDispatch()
-
-  useEffect(()=>{
-    dispatch(fetchMovies());
-  },[])
-
-  return <RouterProvider router={router}/>
+  return (
+    <div className="App">
+      <AuthProvider>
+        <RouterProvider router={router}/>
+      </AuthProvider>
+    </div>
+  );
 }
 
 export default App;

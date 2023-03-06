@@ -1,51 +1,42 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
-import { Error } from '../../components/Error/Error';
-import { Loading } from '../../components/Loading/Loading';
-import { fetchCharacter } from '../../store/movieSlice';
+import { Await,Link, useLoaderData } from "react-router-dom";
+import { Suspense } from 'react';
 
-//styles
-const box ='flex flex-col max-w-3xl w-full pt-24'
-const name = 'uppercase font-bold text-7xl mb-10 text-center'
-const info = 'flex flex-col text-left mb-8'
 
-const films ='flex border-t-[0.5px] border-yellow-300 p-5'  
-const movie =' uppercase font-bold mr-4 text-blackneutral-600 tracking-wide hover:text-yellow-400'
 
-const Character = () => {
-    const {id} = useParams()
-    const {status, character} = useSelector(state=>state.movie);
-    const dispatch = useDispatch()
+function Character (){
+    const {hero, movies} = useLoaderData();
     
-    useEffect(()=>{
-        dispatch(fetchCharacter(id));
-    },[])
-
     return (
-        <div className={box}>
-            {status==='loading' && <Loading/>}
-            {status==='rejected' && <Error/>}
-            {status==='resolved' && 
-                <>
-                    <h1 className={name}>{character.name}</h1>
-                    <ul className={info}>
-                        <li>Gender: {character.gender}</li>
-                        <li>Birth date:{character.birth_year}</li>
-                        <li>Height: {character.height}</li>
-                        <li>Mass: {character.mass}</li>
-                        <li>Hair color: {character.hair_color}</li>
-                        <li>Eye color: {character.eye_color}</li>
-                    </ul>
-                    <ul className={films}>
-                        {character.name && character.films.map(item=>
-                                <Link to={`/movie/${item.slice(28,-1)}`} className={movie} >Episode {item.slice(28,-1)}</Link>
-                            )}
-                    </ul>
-                </>
-            }
-        </div>
-    );
+        <main className="flex flex-col pt-16 w-full max-w-5xl">
+            <h1 className="font-bold text-5xl mb-10">{hero.name}</h1>
+            <ul className="flex flex-col text-left px-[10%] pb-6">
+                <li>Birth year: {hero.birth_year}</li>
+                <li>Gender: {hero.gender}</li>
+                <li>Height: {hero.height}</li>
+                <li>Mass: {hero.mass}</li>
+                <li>Skin color: {hero.skin_color}</li>
+                <li>Hair color: {hero.hair_color}</li>
+                <li>Eye color: {hero.eye_color}</li>
+            </ul>
+            <ul className='flex flex-col px-[10%] text-left pb-10'>
+            <h1 className='text-3xl mb-2'>Movies:</h1>
+            <Suspense fallback={<h4>waiting...</h4>}><Await resolve={movies}>
+                {(movies)=>(
+                    movies.map(item => {
+                        return(
+                            <li key={Date()}>
+                            <Link to={`/movie/${item.url.substring(28).slice(0,-1)}`} className='hero-film-link'>{item.title}</Link>
+                            </li>
+                        )  
+                    })
+                )}
+            </Await></Suspense>
+                </ul>
+        </main>
+    )
 }
 
-export  {Character};
+
+
+
+export { Character}

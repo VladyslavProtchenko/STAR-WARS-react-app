@@ -1,27 +1,39 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Error } from '../../components/Error/Error';
-import { Loading } from '../../components/Loading/Loading';
-import MovieList from './movieList/MovieList';
+import { Suspense } from 'react';
+import { useLoaderData, useSearchParams, Await } from 'react-router-dom';
 
-//style 
-const box = 'flex w-screen h-screen justify-center items-center py-10 w-5xl'
-const container = 'flex flex-col max-w-5xl w-full h-full items-center'
+import MovieList from './MovieList/MovieList';
+import { Search } from './Search/Search';
 
-const Movies = () => {
-    const {status, movies} = useSelector(state => state.movies)
-    console.log(status);
-    
-    return (
-        <div className={box}>
-            <section className={container}>
-                
-                {status==='rejected' && <Error/>}
-                {status==='loading' && <Loading/>}
-                {status==='resolved' && <MovieList movies={movies.results} /> }
-            </section>
-        </div>
-    );
+//styles
+const box ='bg-[#1e1e1e] pt-20 px-[10%] divide-y divide-gray-600 w-full'
+
+
+export function Movies(){
+
+const {films} = useLoaderData();
+const [searchParams, setSearchParams] = useSearchParams();
+const episodeQuery = searchParams.get('search') || '';
+const find=(event)=>{
+    event.prevenDefault();
+    const query = event.target.search.value.toLowerCase();
+    setSearchParams({episode: query})
 }
 
-export default Movies;
+return (
+    <main className={box}>
+        <Search find={find}/>
+        <Suspense fallback={<h2 className='w-full'>Loading...</h2>}>
+        <Await resolve={films}>
+            {
+                (films)=><MovieList films={films} query={episodeQuery}/>
+            }
+        </Await>
+        </Suspense>
+            
+    </main>
+)    
+};
+
+
+
+

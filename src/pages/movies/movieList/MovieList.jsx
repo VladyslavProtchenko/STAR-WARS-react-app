@@ -1,15 +1,17 @@
 import React from 'react';
-import MovieCard from '../movieCard/MovieCard';
-//styles 
-const box = 'flex flex-col w-full items-center wrap'
-const header = 'mb-6 uppercase font-black text-5xl text-neutral-700'
+import { FilmCard } from '../FilmCard/FilmCard';
 
-const MovieList = ({movies}) => {
+const MovieList = ({films, query}) => {
+
+    console.log(films);
     return (
-        <nav className={box}>
-            <h1 className={header}>REDUX WARS</h1>
-            {movies.map(movie=> <MovieCard key={movie.episode_id} movie={movie}/>)}
-        </nav>
+        <div className=''>
+            {
+                films.filter(
+                    item => item.title.toLowerCase().includes(query)
+                    ).map(film=> (<FilmCard film={film} key={new Date()}/>))
+            }
+        </div>
     );
 }
 

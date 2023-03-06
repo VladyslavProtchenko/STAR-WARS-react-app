@@ -1,0 +1,39 @@
+.box{
+    @apply flex flex-col max-w-5xl pt-16;
+}
+
+.info {
+    @apply flex flex-col;
+}
+
+.title {
+    @apply text-3xl font-bold mb-2;
+}
+
+.year {
+    @apply mb-2;
+}
+
+.director {
+    @apply text-left px-10 text-[15px] text-neutral-600;
+}
+
+.producer {
+    @apply text-left px-10 text-[15px] text-neutral-600;
+}
+
+.text {
+    @apply text-left px-16 py-4 text-sm text-neutral-400 leading-4;
+}
+
+.actors {
+    @apply flex flex-col text-left mt-auto;
+}
+
+.list {
+    @apply flex flex-wrap bg-neutral-200 px-[10%] py-10 text-xs;
+}
+
+.one {
+    @apply flex justify-start pr-3 hover:underline;
+}
